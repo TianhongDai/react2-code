@@ -17,11 +17,6 @@ please notice, class 1 is for IGG postive
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data-path', type=str, default='./dataset')
-parser.add_argument('--batch-size', type=int, default=8)
-parser.add_argument('--lr', type=float, default=0.001)
-parser.add_argument('--epochs', type=int, default=100)
-parser.add_argument('--train-steps', type=int, default=20000)
-parser.add_argument("--warmup-steps", type=int, default=500, help='learning rate warm up steps')
 parser.add_argument('--ckpt-path', type=str, default='saved_ckpt')
 parser.add_argument('--cuda', action='store_true', help='if use cuda')
 
