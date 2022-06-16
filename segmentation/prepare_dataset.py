@@ -26,7 +26,10 @@ if __name__ == '__main__':
     saved_data_path = '{}/images'.format(args.save_path)
     saved_label_path = '{}/labels'.format(args.save_path)
     ignore_lists = ['103581_D547FBF6-A129-4BE6-A532-8B30BC73D0AE.jpeg', '103873_B76A9A44-C5B5-4D69-B9F9-C0C1FE2947C8.jpeg']
-    exist_data = os.listdir(saved_data_path)
+    if os.path.exists(saved_data_path):
+        exist_data = os.listdir(saved_data_path)
+    else:
+        exist_data = []
     ignore_lists = ignore_lists + exist_data
     # create the folder
     if not os.path.exists(saved_data_path):
