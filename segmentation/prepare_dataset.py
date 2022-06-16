@@ -5,25 +5,29 @@ import csv
 import json
 from tqdm import tqdm
 import shutil
+import argparse
 
 """
 this script is used to generate the dataset for training
 """
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--data-path', type=str, default='../images', help='the data path')
+parser.add_argument('--save-path', type=str, default='react_data', help='the dir to save the data')
+
+
 if __name__ == '__main__':
+    # parse the arguments
+    args = parser.parse_args()
     # generate the dataset
-    data_path = '../images'
-    #ground_truth_path = '../ground_truth/gtruth_winseg.csv'
-    ground_truth_path = '../ground_truth/seg_gtruth_readout_region.csv'
-    im_lists = os.listdir(data_path)
+    ground_truth_path = '{}/ground_truth/seg_gtruth_readout_region.csv'.format(args.data_path)
+    im_lists = os.listdir('{}/images'.format(args.data_path))
     # saved path
-    saved_data_path = 'react_data/images'
-    saved_label_path = 'react_data/labels'
+    saved_data_path = '{}/images'.format(args.save_path)
+    saved_label_path = '{}/labels'.format(args.save_path)
     ignore_lists = ['103581_D547FBF6-A129-4BE6-A532-8B30BC73D0AE.jpeg', '103873_B76A9A44-C5B5-4D69-B9F9-C0C1FE2947C8.jpeg']
     exist_data = os.listdir(saved_data_path)
     ignore_lists = ignore_lists + exist_data
-    #saved_data_path = 'react_data_tmp/images'
-    #saved_label_path = 'react_data_tmp/labels'
     # create the folder
     if not os.path.exists(saved_data_path):
         os.makedirs(saved_data_path, exist_ok=True)
@@ -46,7 +50,7 @@ if __name__ == '__main__':
             continue
         if im_name not in im_lists:
             continue
-        im = cv2.imread('{}/{}'.format(data_path, im_name))
+        im = cv2.imread('{}/images/{}'.format(args.data_path, im_name))
         # get the name
         suffix = im_name.split('.')[-1]
         im_name_prefix = im_name[:-len(suffix)-1]
@@ -98,4 +102,4 @@ if __name__ == '__main__':
                     label_[y, x, 1] = 0
                     label_[y, x, 2] = 255
         cv2.imwrite('{}/{}.png'.format(saved_label_path, im_name_prefix), label_)
-        shutil.copy2('{}/{}'.format(data_path, im_name), '{}/{}'.format(saved_data_path, im_name))
+        shutil.copy2('{}/images/{}'.format(args.data_path, im_name), '{}/{}'.format(saved_data_path, im_name))
