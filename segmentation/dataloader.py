@@ -47,7 +47,10 @@ class Dataset(BaseDataset):
         image = cv2.imread(self.images_fps[i])
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         # read the mask
-        mask = cv2.imread(self.masks_fps[i])
+        suffix = self.masks_fps[i].split('.')[-1]
+        prefix = self.masks_fps[:-len(suffix)-1]
+        #mask = cv2.imread(self.masks_fps[i])
+        mask = cv2.imread('{}.png'.format(prefix))
         mask = cv2.cvtColor(mask, cv2.COLOR_BGR2RGB)
         # because our label is rgb states, therefore, use different type
         masks = [(mask[:,:,v] == 255) for v in self.class_values]
