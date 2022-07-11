@@ -48,7 +48,7 @@ class Dataset(BaseDataset):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         # read the mask
         suffix = self.masks_fps[i].split('.')[-1]
-        prefix = self.masks_fps[:-len(suffix)-1]
+        prefix = self.masks_fps[i][:-len(suffix)-1]
         #mask = cv2.imread(self.masks_fps[i])
         mask = cv2.imread('{}.png'.format(prefix))
         mask = cv2.cvtColor(mask, cv2.COLOR_BGR2RGB)
